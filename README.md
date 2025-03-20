@@ -1,3 +1,5 @@
+this is a learning management system which has three main roles teacher,student,admin
+technologies used here-:
 exception handling(try and catch block)
 programmed .net/asp.net core web api with C#
 followed object oriented concepts
@@ -12,5 +14,5 @@ monolithic architecture-single database
 Rolebased authentiacation with JWT
 used Lazy loading with virtual 
 
-this is a learning management system which has three main roles teacher,student,admin
+
 
