@@ -184,11 +184,30 @@ namespace Learning_management_system.Services
 
         }
 
-        public async Task<(IEnumerable<ViewUserDTO>,int Totalpages)> GetAllviewusersasync(int page = 1, int pagesize = 5) { 
+        public async Task<(IEnumerable<ViewUserDTO>,int Totalpages)> GetAllviewusersasync(int page = 1, int pagesize = 5,string searchterm ="", string filterBy = "",string filterValue = "")
+        { 
 
-            var totalcount= await _context.Users.CountAsync();
+            var query=_context.Users.AsQueryable();
 
-            var users = await (from u in _context.Users select new ViewUserDTO
+            if(!string.IsNullOrWhiteSpace(searchterm))
+            {
+                query = query.Where(u => u.FirstName.Contains(searchterm) || u.LastName.Contains(searchterm) || u.Email.Contains(searchterm));
+            }
+            if (!string.IsNullOrWhiteSpace(filterBy) && !string.IsNullOrWhiteSpace(filterValue))
+            {
+                query = filterBy.ToLower() switch
+                {
+                    "email" => query.Where(u => u.Email.Contains(filterValue)),
+                    "firstname" => query.Where(u => u.FirstName.Contains(filterValue)),
+                    "lastname" => query.Where(u => u.LastName.Contains(filterValue)),
+                   
+                    _ => query 
+                };
+            }
+
+            var totalcount= await query.CountAsync();
+
+            var users = await (from u in query select new ViewUserDTO
             {
                 Email=u.Email,
                 FirstName=u.FirstName,

@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Learning_management_system.dbcontext;
+using Learning_management_system.Interfaces;
+using Learning_management_system.Services;
 
 
 
@@ -11,6 +13,7 @@ builder.Services.AddDbContext<Appdbcontext>(options =>
         builder.Configuration.GetConnectionString("DefaultConnection"),
         new MySqlServerVersion(new Version(8, 0, 31))
     ));
+builder.Services.AddScoped<IUserService,Userservice>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

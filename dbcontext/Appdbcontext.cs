@@ -13,6 +13,9 @@ namespace Learning_management_system.dbcontext
 
         public DbSet<User> Users { get; set; }
 
+        public DbSet<Courses> Courses { get; set; }
+
+
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

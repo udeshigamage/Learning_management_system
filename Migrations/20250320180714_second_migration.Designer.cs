@@ -3,6 +3,7 @@ using System;
 using Learning_management_system.dbcontext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,44 +11,16 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Learning_management_system.Migrations
 {
     [DbContext(typeof(Appdbcontext))]
-    partial class AppdbcontextModelSnapshot : ModelSnapshot
+    [Migration("20250320180714_second_migration")]
+    partial class second_migration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "8.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
-
-            modelBuilder.Entity("Learning_management_system.Models.Courses", b =>
-                {
-                    b.Property<int>("Course_Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("Course_Description")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Course_Name")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<DateTime>("Createddate")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<DateTime>("Modifieddate")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int>("User_Id")
-                        .HasColumnType("int");
-
-                    b.HasKey("Course_Id");
-
-                    b.HasIndex("User_Id");
-
-                    b.ToTable("Tb_Courses");
-                });
 
             modelBuilder.Entity("Learning_management_system.Models.User", b =>
                 {
@@ -80,17 +53,6 @@ namespace Learning_management_system.Migrations
                     b.HasKey("User_Id");
 
                     b.ToTable("Tb_Users");
-                });
-
-            modelBuilder.Entity("Learning_management_system.Models.Courses", b =>
-                {
-                    b.HasOne("Learning_management_system.Models.User", "user")
-                        .WithMany()
-                        .HasForeignKey("User_Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("user");
                 });
 #pragma warning restore 612, 618
         }
