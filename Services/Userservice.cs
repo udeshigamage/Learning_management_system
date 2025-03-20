@@ -212,6 +212,7 @@ namespace Learning_management_system.Services
                 Email=u.Email,
                 FirstName=u.FirstName,
                 LastName=u.LastName,
+                User_Id=u.User_Id,
                 User_Type = u.User_Type
             }).Skip((page - 1) * pagesize).Take(pagesize).ToListAsync();
 

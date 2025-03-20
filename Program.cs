@@ -14,6 +14,7 @@ builder.Services.AddDbContext<Appdbcontext>(options =>
         new MySqlServerVersion(new Version(8, 0, 31))
     ));
 builder.Services.AddScoped<IUserService,Userservice>();
+builder.Services.AddScoped<ICourseService,Courseservices>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

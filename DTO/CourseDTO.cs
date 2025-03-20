@@ -11,6 +11,8 @@ namespace Learning_management_system.DTO
 
         public int User_Id { get; set; }
 
+        
+
        
 
 
@@ -19,7 +21,7 @@ namespace Learning_management_system.DTO
     {
         public int Course_Id { get; set; }
 
-        public DateTime Modifieddate { get; set; }
+        
 
 
     }
@@ -34,6 +36,9 @@ namespace Learning_management_system.DTO
 
         public DateTime Modifieddate { get; set; }
 
+        public int Course_Id { get; set; }
+
+       
        
 
         public int User_Id { get; set; }

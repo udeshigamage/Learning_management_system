@@ -16,6 +16,8 @@ namespace Learning_management_system.DTO
 
         public DateTime Createddate { get; set; } = DateTime.Now;
 
+        public int User_Id { get; set; }
+
 
     }
 
