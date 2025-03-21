@@ -42,7 +42,22 @@ namespace Learning_management_system.Controllers
            
         }
 
-       
+        [HttpGet("/courses/list")]
+
+        public async Task<IActionResult> Getlistcourses()
+        {
+            try
+            {
+                var list_courses = await _courseService.GetListcourseasync();
+                return Ok(list_courses);
+
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception("error in controller");
+            }
+        }
         [HttpGet("{id}")]
         public async Task<IActionResult> Getbyid(int id)
         {

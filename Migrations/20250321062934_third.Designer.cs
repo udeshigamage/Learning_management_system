@@ -3,6 +3,7 @@ using System;
 using Learning_management_system.dbcontext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Learning_management_system.Migrations
 {
     [DbContext(typeof(Appdbcontext))]
-    partial class AppdbcontextModelSnapshot : ModelSnapshot
+    [Migration("20250321062934_third")]
+    partial class third
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,36 +50,6 @@ namespace Learning_management_system.Migrations
                     b.HasIndex("User_Id");
 
                     b.ToTable("Tb_Courses");
-                });
-
-            modelBuilder.Entity("Learning_management_system.Models.Courssemodules", b =>
-                {
-                    b.Property<int>("Module_Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<int>("Course_Id")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("Createddate")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<DateTime>("Modifieddate")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("Module_Description")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Module_Name")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Module_Id");
-
-                    b.HasIndex("Course_Id");
-
-                    b.ToTable("Tb_Coursemodules");
                 });
 
             modelBuilder.Entity("Learning_management_system.Models.User", b =>
@@ -121,17 +94,6 @@ namespace Learning_management_system.Migrations
                         .IsRequired();
 
                     b.Navigation("user");
-                });
-
-            modelBuilder.Entity("Learning_management_system.Models.Courssemodules", b =>
-                {
-                    b.HasOne("Learning_management_system.Models.Courses", "Courses")
-                        .WithMany()
-                        .HasForeignKey("Course_Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Courses");
                 });
 #pragma warning restore 612, 618
         }

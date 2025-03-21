@@ -20,6 +20,8 @@ namespace Learning_management_system.Models
 
         public DateTime Createddate { get; set; } = DateTime.UtcNow;
 
+        public DateTime Modifieddate { get; set; }
+
         public virtual Courses Courses { get; set; }
     }
 }

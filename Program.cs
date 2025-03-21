@@ -15,6 +15,7 @@ builder.Services.AddDbContext<Appdbcontext>(options =>
     ));
 builder.Services.AddScoped<IUserService,Userservice>();
 builder.Services.AddScoped<ICourseService,Courseservices>();
+builder.Services.AddScoped<ICoursemoduleService,CoursemoduleService>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

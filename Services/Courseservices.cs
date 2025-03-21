@@ -15,6 +15,8 @@ namespace Learning_management_system.Services
             _context = context;
         }
 
+
+
         public async Task<Message<string>> Createcourseasync(CreateCourseDTO course)
         {
             try
@@ -175,6 +177,11 @@ namespace Learning_management_system.Services
                     Course_Id = c.Course_Id,
                     Course_Name = c.Course_Name,
                     Createddate = c.Createddate,
+                    first_name=c.user.FirstName,
+                    last_name=c.user.LastName,
+                    email=c.user.Email,
+                    usertype=c.user.User_Type,
+                    
                     Modifieddate = c.Modifieddate
                 }).ToList();
 
@@ -189,5 +196,30 @@ namespace Learning_management_system.Services
 
             }
         }
+        public async Task<IEnumerable<ListCourseDTO>> GetListcourseasync()
+        {
+            try
+            {
+                var query = _context.Courses.AsQueryable();
+
+
+
+                var courselist = query.Select(c => new ListCourseDTO
+                {
+                    Course_Id = c.Course_Id,
+                    Course_Name = c.Course_Name
+                }).ToList();
+                return courselist;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error");
+
+            }
+            
+        }
+
     }
-}
+    }
+   
+

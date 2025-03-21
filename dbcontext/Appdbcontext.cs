@@ -15,6 +15,8 @@ namespace Learning_management_system.dbcontext
 
         public DbSet<Courses> Courses { get; set; }
 
+        public DbSet<Courssemodules> Courssemodules { get; set; }
+
 
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
