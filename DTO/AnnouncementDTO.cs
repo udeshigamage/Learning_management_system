@@ -18,7 +18,7 @@ namespace Learning_management_system.DTO
 
        
     }
-    public class UpdateAnnouncementDTO:createCoursemoduleDTO
+    public class UpdateAnnouncementDTO:CreateAnnouncementDTO
     {
         public int Announcement_Id { get; set; }
 

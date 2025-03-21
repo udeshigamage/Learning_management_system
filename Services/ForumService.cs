@@ -1,6 +1,9 @@
 ﻿using Learning_management_system.dbcontext;
 using Learning_management_system.DTO;
 using Learning_management_system.Interfaces;
+using Learning_management_system.Models;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.EntityFrameworkCore;
 
 namespace Learning_management_system.Services
 {
@@ -14,6 +17,21 @@ namespace Learning_management_system.Services
         public async Task<Message<string>> Createforumasync(CreateForumDTO forum) {
             try
             {
+                var forum_ = new Forums
+                {
+                        ForumTopic = forum.ForumTopic,
+                       createdby =forum.createdby,
+                    Course_Id =forum.createdby
+
+                };
+                _context.Forums.Add(forum_);
+                await _context.SaveChangesAsync();
+                return new Message<string>
+                {
+                     Status="S",
+                     Result ="Successfully created forum"
+
+                };
             }
             catch (Exception ex)
             {
@@ -28,6 +46,30 @@ namespace Learning_management_system.Services
         public async Task<Message<string>> Updateforumasync(UpdateForumDTO forum, int id) {
             try
             {
+                var existingforum = await _context.Forums.FindAsync(id);
+
+                if (existingforum == null)
+                {
+                    return new Message<string>
+                    {
+                        Status = "E",
+                        Result = "Error"
+                    };
+
+                }
+                existingforum.ForumTopic = forum.ForumTopic;
+                existingforum.ForumTopic_Id = forum.ForumTopic_Id;
+                existingforum.createdby = forum.createdby;
+                existingforum.Course_Id= forum.Course_Id;
+
+                _context.SaveChangesAsync();
+
+
+                return new Message<string>
+                {
+                    Status = "S",
+                    Result = "Successfully updated"
+                };
             }
             catch (Exception ex)
             {
@@ -42,6 +84,24 @@ namespace Learning_management_system.Services
         public async Task<Message<string>> Deleteforumasync(int id) {
             try
             {
+                var forum = await _context.Forums.FindAsync(id);
+                if(forum == null)
+                {
+                    return new Message<string>
+                    {
+                        Status = "E",
+                        Result = "Error"
+                    };
+                }
+                _context.Forums.Remove(forum);
+                _context.SaveChangesAsync();
+
+                return new Message<string>
+                {
+                    Status = "S",
+                    Result = "Successfully deleted"
+                };
+
             }
             catch (Exception ex)
             {
@@ -56,6 +116,20 @@ namespace Learning_management_system.Services
         public async Task<IEnumerable<ViewForumDTO>> Getviewforumasync(int id) {
             try
             {
+                var forum = await _context.Forums.Where(c => c.ForumTopic_Id == id).Select(c => new ViewForumDTO
+                {
+                    Course_Id= c.Course_Id,
+                    createdby = c.createdby,
+                    createddate = c.createddate,
+                    ForumTopic = c.ForumTopic,
+                    ForumTopic_Id = c.ForumTopic_Id,
+
+
+
+
+                }).ToListAsync();
+
+                return (forum);
             }
             catch (Exception ex)
             {

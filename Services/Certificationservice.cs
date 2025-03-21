@@ -1,6 +1,8 @@
 ﻿using Learning_management_system.dbcontext;
 using Learning_management_system.DTO;
 using Learning_management_system.Interfaces;
+using Learning_management_system.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Learning_management_system.Services
 {
@@ -12,11 +14,29 @@ namespace Learning_management_system.Services
             _context = context;
         }
 
-      public async  Task<Message<string>> CreatecoursemoduleAsync(createCoursemoduleDTO coursemoduleDTO)
+       public async Task<Message<string>> Createcertificationsasync(CreateCertificationsDTO certifications)
         {
-
             try
             {
+                var newcertificate = new Certifications
+                {
+                    issue_date = DateTime.UtcNow,
+                    expiry_date = certifications.expiry_date,
+                    certificate_code = certifications.certificate_code,
+                    User_Id = certifications.User_Id,
+                    Course_Id = certifications.Course_Id
+                   
+
+                };
+
+                _context.Certifications.Add(newcertificate);
+                await _context.SaveChangesAsync();
+                return new Message<string>
+                {
+                    Status = "S",
+                    Result = "Successfully created certification"
+                };
+
             }
             catch (Exception ex)
             {
@@ -28,9 +48,31 @@ namespace Learning_management_system.Services
             }
         }
 
-        public async Task<Message<string>> Updatecoursemodule(updateCoursemoduleDTO coursemoduleDTO, int id) {
+        public async Task<Message<string>> Updatecertificationsasync(UpdateCertificationsDTO certifications, int id)
+        {
             try
             {
+                var existingcertificate = await _context.Certifications.FindAsync(id);
+
+                if (existingcertificate == null)
+                {
+
+
+                    return new Message<string>
+                    {
+                        Status = "E",
+                        Result = "Error"
+                    };
+
+                }
+
+                
+
+                return new Message<string>
+                {
+                    Status = "S",
+                    Result = "Successfully updated"
+                };
             }
             catch (Exception ex)
             {
@@ -42,9 +84,28 @@ namespace Learning_management_system.Services
             }
         }
 
-       public async Task<Message<string>> deletecoursemodule(int id) {
+        public async Task<Message<string>> Deletecertificationsasync(int id)
+        {
             try
             {
+                var certificate = await _context.Certifications.FindAsync(id);
+                if(certificate == null)
+                {
+                    return new Message<string>
+                    {
+                        Status = "E",
+                        Result = "Error"
+                    };
+                }
+                 _context.Certifications.Remove(certificate);
+                _context.SaveChangesAsync();
+
+                return new Message<string>
+                {
+                    Status = "S",
+                    Result = "Successfully deleted"
+                };
+
             }
             catch (Exception ex)
             {
@@ -56,34 +117,64 @@ namespace Learning_management_system.Services
             }
         }
 
-        public async Task<(IEnumerable<viewCoursemoduleDTO>, int totalcount)> getallcoursemodules(int page = 1, int pagesize = 5, string searchterm = "") {
+        public async Task<IEnumerable<ViewCertificationsDTO>> Getviewcertificationsasync(int id)
+        {
             try
             {
-            }
-            catch (Exception ex)
+                var certification = await _context.Certifications.Where(c => c.Certification_Id == id).Select(c => new ViewCertificationsDTO
+                {
+                    Course_Id= c.Course_Id,
+                    User_Id= c.User_Id,
+                    certificate_code= c.certificate_code,
+                    expiry_date = c.expiry_date,
+                    issue_date = c.issue_date,
+                    Certification_Id = c.Certification_Id,
+
+
+
+
+                }).ToListAsync();
+
+                return certification;
+
+            } catch (Exception ex)
             {
-                throw new Exception("Error");
+                throw new Exception(ex.Message);
             }
         }
 
-        public async Task<IEnumerable<viewCoursemoduleDTO>> getcoursemodulebyid(int id) {
+        public async Task<(IEnumerable<ViewCertificationsDTO>, int totalcount)> Getallcertificationsasync(int page = 1, int pagesize = 5, string searchterm = "", string filterBy = "", string filterValue = "")
+        {
             try
             {
+
             }
             catch (Exception ex)
             {
+                throw new Exception(ex.Message);
             }
         }
 
-        public async Task<IEnumerable<listCoursemoduleDTO>> listcoursemodule() {
-            try
-            {
-            }
-            catch (Exception ex)
-            {
-            }
-        }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
 
     }
 }

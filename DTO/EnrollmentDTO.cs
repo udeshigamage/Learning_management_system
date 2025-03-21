@@ -8,7 +8,7 @@ namespace Learning_management_system.DTO
     {
        
 
-        public DateTime Enrollment_date { get; set; } 
+        
         public Enrollmentstatus enrollmentstatus { get; set; }
 
         public int User_Id { get; set; }

@@ -1,6 +1,8 @@
 ﻿using Learning_management_system.dbcontext;
 using Learning_management_system.DTO;
 using Learning_management_system.Interfaces;
+using Learning_management_system.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Learning_management_system.Services
 {
@@ -15,9 +17,33 @@ namespace Learning_management_system.Services
         {
             try
             {
+                var quizquestions_ = new Quizquestions
+                {
+                    answertypes=quizquestion.answertypes,
+                    Quiz_Id=quizquestion.Quiz_Id,
+                    question_text=quizquestion.question_text,
+                };
+
+                _context.Quizquestions.Add(quizquestions_);
+                await _context.SaveChangesAsync();
+                return new Message<string>
+                {
+                    Status = "S",
+                    Result = "Successfully created"
+                };
+
+
+
+
+               
             }
             catch (Exception ex)
             {
+                return new Message<string>
+                {
+                    Status = "E",
+                    Result = ex.Message
+                };
             }
         }
 
@@ -25,9 +51,35 @@ namespace Learning_management_system.Services
         {
             try
             {
+                var quizquestions = await _context.Quizquestions.FindAsync(id);
+                if (quizquestions == null)
+                {
+                    return new Message<string>
+                    {
+                        Status = "E",
+                        Result = "Error"
+                    };
+
+                }
+                quizquestions.question_text = quizquestion.question_text;
+                quizquestions.answertypes = quizquestion.answertypes;
+                quizquestions.question_Id =quizquestion.question_Id;
+
+                await _context.SaveChangesAsync();
+
+                return new Message<string>
+                {
+                    Status = "S",
+                    Result = "Successfully updated"
+                };
             }
             catch (Exception ex)
             {
+                return new Message<string>
+                {
+                    Status = "E",
+                    Result = ex.Message
+                };
             }
 
         }
@@ -35,18 +87,52 @@ namespace Learning_management_system.Services
         public async Task<Message<string>> Deletequizquestionasync(int id) {
             try
             {
+                var quizquestions = await _context.Quizquestions.FindAsync(id);
+                if(quizquestions == null)
+                {
+                    return new Message<string>
+                    {
+                        Status = "E",
+                        Result = "Not found"
+                    };
+                }
+                _context.Quizquestions.Remove(quizquestions);
+                 await _context.SaveChangesAsync();
+
+                return new Message<string>
+                {
+                    Status = "S",
+                    Result = "Successfully deleted"
+                };
             }
             catch (Exception ex)
             {
+                return new Message<string>
+                {
+                    Status = "E",
+                    Result = ex.Message
+                };
             }
         }
 
         public async Task<IEnumerable<ViewQuizquestionDTO>> Getviewquizquestionasync(int id) {
             try
             {
+                var quizquestion = await _context.Quizquestions.Where(c => c.question_Id == id).Select(c => new ViewQuizquestionDTO
+                {
+                    question_Id = c.question_Id,
+                    answertypes = c.answertypes,
+                    question_text  = c.question_text,
+                    Quiz_Id = c.Quiz_Id
+
+
+                }).ToListAsync();
+
+                return quizquestion;
             }
             catch (Exception ex)
             {
+                throw new Exception("error");
             }
         }
 
@@ -57,6 +143,7 @@ namespace Learning_management_system.Services
             }
             catch (Exception ex)
             {
+                throw new Exception("error");
             }
         }
 

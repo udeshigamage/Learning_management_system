@@ -1,6 +1,9 @@
 ﻿using Learning_management_system.dbcontext;
 using Learning_management_system.DTO;
 using Learning_management_system.Interfaces;
+using Learning_management_system.Models;
+using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace Learning_management_system.Services
 {
@@ -16,10 +19,37 @@ namespace Learning_management_system.Services
         {
             try
             {
+                var newsubmission = new Submission
+                {
+                    feedback = submission.feedback,
+                    filepaths = submission.filepaths,
+                    grade =submission.grade,
+                    Assignment_Id=submission.Assignment_Id,
+                    User_Id=submission.User_Id,
+                    submission_date= DateTime.UtcNow
+
+
+
+
+                };
+                _context.Submissions.Add(newsubmission);
+                await _context.SaveChangesAsync();
+                return new Message<string>
+                {
+                    Result="successfull",
+                    Status="S",
+                    
+
+                };
             }
             catch (Exception ex)
             {
 
+                return new Message<string>
+                {
+                    Status = "E",
+                    Result = ex.Message
+                };
             }
 
         }
@@ -28,9 +58,37 @@ namespace Learning_management_system.Services
         {
             try
             {
+                var existingsubmission = await _context.Submissions.FindAsync(id);
+                if(existingsubmission == null)
+                {
+                    return new Message<string>
+                    {
+                        Status = "E",
+                        Result = "Error"
+                    };
+                }
+                existingsubmission.feedback = submission.feedback;
+                existingsubmission.filepaths =submission.filepaths;
+                existingsubmission.grade = submission.grade;    
+                existingsubmission.Assignment_Id = submission.Assignment_Id;
+                existingsubmission.User_Id = submission.User_Id;
+
+                await _context.SaveChangesAsync();
+
+
+                return new Message<string>
+                {
+                    Status = "S",
+                    Result = "Successfully updated"
+                };
             }
             catch (Exception ex)
             {
+                return new Message<string>
+                {
+                    Status = "E",
+                    Result = ex.Message
+                };
             }
 
         }
@@ -39,9 +97,31 @@ namespace Learning_management_system.Services
         {
             try
             {
+                var submission = await _context.Submissions.FindAsync(id);
+                if (submission == null)
+                {
+                    return new Message<string>
+                    {
+                        Status = "E",
+                        Result = "Not found"
+                    };
+                }
+                _context.Submissions.Remove(submission);
+                await _context.SaveChangesAsync();
+                return new Message<string>
+                {
+                    Status = "S",
+                    Result = "Deleted Successfully"
+                };
+
             }
             catch (Exception ex)
             {
+                return new Message<string>
+                {
+                    Status = "E",
+                    Result = ex.Message
+                };
             }
 
         }
@@ -50,9 +130,26 @@ namespace Learning_management_system.Services
         {
             try
             {
+                var submission = await _context.Submissions.Where(c => c.Submission_Id == id).Select(c => new ViewSubmissionDTO
+                {
+                    Submission_Id = c.Submission_Id,
+                    Assignment_Id= c.Assignment_Id,
+                    User_Id= c.User_Id,
+                    feedback=c.feedback,
+                    filepaths=c.filepaths,
+                    grade=c.grade,
+                    submission_date= c.submission_date
+
+
+
+                }).ToListAsync();
+
+                return (submission);
+
             }
             catch (Exception ex)
             {
+                throw new Exception("error");
             }
 
         }
@@ -64,7 +161,7 @@ namespace Learning_management_system.Services
             }
             catch (Exception ex)
             {
-
+                throw new Exception("error");
             }
         }
     }

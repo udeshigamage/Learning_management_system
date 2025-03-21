@@ -2,6 +2,8 @@
 using Learning_management_system.DTO;
 using Learning_management_system.Interfaces;
 using Learning_management_system.Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 
 namespace Learning_management_system.Services
 {
@@ -52,6 +54,30 @@ namespace Learning_management_system.Services
         public async Task<Message<string>> Updateassignmentasync(UpdateAssignmentDTO assignment, int id) {
             try
             {
+                var existingassignment_ = await _context.Assignment.FindAsync(id);
+                if (existingassignment_ == null)
+                {
+                    return new Message<string>
+                    {
+                        Status = "E",
+                        Result = "Not found"
+                    };
+                }
+                existingassignment_.Assignment_Name = assignment.Assignment_Name;
+                existingassignment_.Assignment_Description= assignment.Assignment_Description;
+                existingassignment_.duedate = assignment.duedate;
+                existingassignment_.Module_Id=assignment.Module_Id;
+
+                await _context.SaveChangesAsync();
+                return new Message<string>
+                {
+                    Status = "S",
+                    Result = "Updated successfully"
+                };
+
+
+
+
 
             }
             catch (Exception ex)
@@ -67,6 +93,22 @@ namespace Learning_management_system.Services
         public async Task<Message<string>> Deleteassignmentasync(int id) {
             try
             {
+                var assignment = await _context.Assignment.FindAsync(id);
+                if(assignment == null)
+                {
+                    return new Message<string>
+                    {
+                        Status = "E",
+                        Result = "Error"
+                    };
+                }
+                _context.Assignment.Remove(assignment);
+                await _context.SaveChangesAsync();
+                return new Message<string>
+                {
+                    Status = "S",
+                    Result ="Successfully deleted"
+                };
 
             }
             catch (Exception ex)
@@ -82,6 +124,17 @@ namespace Learning_management_system.Services
         public async  Task<IEnumerable<ViewAssignmentDTO>> Getviewassignmentasync(int id) {
             try
             {
+                var assignment = await _context.Assignment.Where(c => c.Assignment_Id == id).Select(c => new ViewAssignmentDTO
+                {
+                    Module_Id = c.Module_Id,
+                    duedate = c.duedate,
+                    Createddate = c.Createddate,
+                    Assignment_Description = c.Assignment_Description,
+                    Assignment_Name= c.Assignment_Name,
+                    Assignment_Id = c.Assignment_Id
+
+                }).ToListAsync();
+                return assignment;
 
             }
             catch (Exception ex)
