@@ -139,6 +139,23 @@ namespace Learning_management_system.Services
         {
             try
             {
+                var query = _context.Quizes.AsQueryable();
+                if(!string.IsNullOrEmpty(searchterm))
+                {
+                    query = query.Where(c => c.Quiz_Name.Contains(searchterm));
+                }
+
+                var totalcount = await query.CountAsync();
+                var result = await query.Skip((page - 1) * pagesize).Take(pagesize).Select(c => new ViewQuizDTO
+                {
+                    Course_Id = c.Course_Id,
+                    Createddate = c.Createddate,
+                    Quiz_Name = c.Quiz_Name,
+                    Quiz_Id = c.Quiz_Id
+
+                }).ToListAsync();
+
+                return (result, totalcount);
             }
             catch (Exception ex)
             {

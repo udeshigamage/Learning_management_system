@@ -139,7 +139,25 @@ namespace Learning_management_system.Services
 
         public async Task<(IEnumerable<ViewForumDTO>, int totalcount)> Getallforumasync(int page = 1, int pagesize = 5, string searchterm = "", string filterBy = "", string filterValue = "") {
             try
-            {
+            { var query = _context.Forums.AsQueryable();
+                if (!string.IsNullOrEmpty(searchterm))
+                {
+                    query = query.Where(c => c.ForumTopic.Contains(searchterm));
+                }
+                if (!string.IsNullOrEmpty(filterBy) && !string.IsNullOrEmpty(filterValue))
+                {
+                    query = query.Where(c => c.ForumTopic.Contains(filterValue));
+                }
+                var totalcount = query.Count();
+                var forum = await query.Skip((page - 1) * pagesize).Take(pagesize).Select(c => new ViewForumDTO
+                {
+                    Course_Id = c.Course_Id,
+                    createdby = c.createdby,
+                    createddate = c.createddate,
+                    ForumTopic = c.ForumTopic,
+                    ForumTopic_Id = c.ForumTopic_Id,
+                }).ToListAsync();
+                return (forum, totalcount);
             }
             catch (Exception ex)
             {

@@ -12,7 +12,7 @@ namespace Learning_management_system.Interfaces
 
         Task<IEnumerable<ViewForumpost>> Getviewforumpostasync(int id);
 
-        Task<(IEnumerable<ViewForumpost>, int totalcount)> Getallasync(int page = 1, int pagesize = 5, string searchterm = "", string filterBy = "", string filterValue = "");
+        Task<(IEnumerable<ViewForumpost>, int totalcount)> Getallasync(int page = 1, int pagesize = 5, string searchterm = "");
 
        
     }

@@ -158,7 +158,29 @@ namespace Learning_management_system.Services
         {
             try
             {
-            }
+                var query = _context.Submissions.AsQueryable();
+
+                if (!string.IsNullOrEmpty(searchterm))
+                {
+                    query = query.Where(c => c.feedback.Contains(searchterm) || c.filepaths.Contains(searchterm));
+                    }
+
+                var totalcount = query.Count();
+                var result = await query.Skip((page - 1) * pagesize).Take(pagesize).Select(c => new ViewSubmissionDTO
+                {
+                    Submission_Id = c.Submission_Id,
+                    Assignment_Id = c.Assignment_Id,
+                    User_Id = c.User_Id,
+                    feedback = c.feedback,
+                    filepaths = c.filepaths,
+                    grade = c.grade,
+                    submission_date = c.submission_date
+
+                }).ToListAsync();
+
+                return (result, totalcount);
+                
+                }
             catch (Exception ex)
             {
                 throw new Exception("error");

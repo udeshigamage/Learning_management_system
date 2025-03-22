@@ -142,6 +142,22 @@ namespace Learning_management_system.Services
         {
             try
             {
+                var query = _context.Liveclasses.AsQueryable();
+                if (!string.IsNullOrEmpty(searchterm))
+                {
+                    query = query.Where(c => c.Courses.Course_Name.Contains(searchterm) || c.User.FirstName.Contains(searchterm) || c.status.Contains(searchterm) || c.vedio_link.Contains(searchterm));
+                }
+                var totalcount = query.Count();
+                var liveclass = await query.Skip((page - 1) * pagesize).Take(pagesize).Select(c => new ViewLiveclassesDTO
+                {
+                    instructor_id = c.instructor_id,
+                    Course_Id = c.Course_Id,
+                    Createddate = c.Createddate,
+                    status = c.status,
+                    Liveclass_Id = c.Liveclass_Id
+                }).ToListAsync();
+
+                return (liveclass, totalcount);
             }
             catch (Exception ex)
             {

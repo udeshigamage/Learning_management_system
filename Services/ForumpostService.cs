@@ -29,6 +29,13 @@ namespace Learning_management_system.Services
 
 
                 };
+                _context.Forumposts.Add(forumpost_);
+                await _context.SaveChangesAsync();
+                return new Message<string>
+                {
+                    Status = "S",
+                    Result = "Successfully created"
+                };
             }
             catch (Exception ex)
             {
@@ -136,9 +143,26 @@ namespace Learning_management_system.Services
             }
         }
 
-        public async Task<(IEnumerable<ViewForumpost>, int totalcount)> Getallasync(int page = 1, int pagesize = 5, string searchterm = "", string filterBy = "", string filterValue = "") {
+        public async Task<(IEnumerable<ViewForumpost>, int totalcount)> Getallasync(int page = 1, int pagesize = 5, string searchterm = "") {
             try
             {
+                var query = _context.Forumposts.AsQueryable();
+
+                if(!string.IsNullOrEmpty(searchterm))
+                {
+                    query = query.Where(c => c.User.FirstName.Contains(searchterm)||c.Createddate.ToString().Contains(searchterm));
+                }
+                var totalcount = query.Count();
+                var result = await query.Skip((page - 1) * pagesize).Take(pagesize).Select(c => new ViewForumpost
+                {
+                    createdby = c.createdby,
+                    ForumTopic_Id = c.ForumTopic_Id,
+                    Createddate = c.Createddate,
+                    postcontent = c.postcontent,
+                    Forumpost_Id = c.Forumpost_Id,
+
+                }).ToListAsync();
+                return (result, totalcount);
             }
             catch (Exception ex)
             {

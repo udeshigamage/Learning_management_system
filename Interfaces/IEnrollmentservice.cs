@@ -12,7 +12,7 @@ namespace Learning_management_system.Interfaces
 
         Task<IEnumerable<ViewEnrollmentDTO>> Getviewenrollmentasync(int id);
 
-        Task<(IEnumerable<ViewEnrollmentDTO>, int totalcount)> Getallenrollmentasync(int page = 1, int pagesize = 5, string searchterm = "", string filterBy = "", string filterValue = "");
+        Task<(IEnumerable<ViewEnrollmentDTO>, int totalcount)> Getallenrollmentasync(int page = 1, int pagesize = 5, string searchterm = "");
 
         
     }

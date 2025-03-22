@@ -142,9 +142,27 @@ namespace Learning_management_system.Services
             }
         }
 
-        public async Task<(IEnumerable<ViewEnrollmentDTO>, int totalcount)> Getallenrollmentasync(int page = 1, int pagesize = 5, string searchterm = "", string filterBy = "", string filterValue = "") {
+        public async Task<(IEnumerable<ViewEnrollmentDTO>, int totalcount)> Getallenrollmentasync(int page = 1, int pagesize = 5, string searchterm = "") {
             try
             {
+                var query = _context.Enrollments.AsQueryable();
+
+                if (!string.IsNullOrEmpty(searchterm))
+                {
+                    query = query.Where(c => c.User.FirstName.Contains(searchterm) || c.Courses.Course_Name.Contains(searchterm));
+                }
+                var totalcount = query.Count();
+                var result =await query.Skip ((page-1)*pagesize).Take(pagesize).Select(c => new ViewEnrollmentDTO
+                {
+                    Course_Id = c.Course_Id,
+                    User_Id = c.User_Id,
+                    enrollmentstatus = c.enrollmentstatus,
+                    Enrollment_date = c.Enrollment_date,
+                    Enrollment_Id = c.Enrollment_Id
+
+                }).ToListAsync();
+
+                return(result, totalcount);
             }
             catch (Exception ex)
             {

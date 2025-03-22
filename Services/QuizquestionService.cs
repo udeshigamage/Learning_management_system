@@ -140,6 +140,26 @@ namespace Learning_management_system.Services
         {
             try
             {
+                var query =  _context.Quizquestions.AsQueryable();
+
+                if(!string.IsNullOrEmpty(searchterm))
+                {
+                    
+                    query = query.Where(c => c.question_text.Contains(searchterm));
+                }
+           
+                var totalcount = query.Count();
+                var result = query.Skip((page - 1) * pagesize).Take(pagesize).Select(c => new ViewQuizquestionDTO
+                {
+                    question_Id = c.question_Id,
+                    answertypes = c.answertypes,
+                    question_text = c.question_text,
+                    Quiz_Id = c.Quiz_Id
+
+
+                }).ToList();
+
+                return(result,totalcount);
             }
             catch (Exception ex)
             {

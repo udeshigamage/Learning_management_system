@@ -12,7 +12,7 @@ namespace Learning_management_system.Interfaces
 
         Task<IEnumerable<ViewAssignmentDTO>> Getviewassignmentasync(int id);
 
-        Task<(IEnumerable<ViewAssignmentDTO>, int totalcount)> Getallassignmentasync(int page = 1, int pagesize = 5, string searchterm = "", string filterBy = "", string filterValue = "");
+        Task<(IEnumerable<ViewAssignmentDTO>, int totalcount)> Getallassignmentasync(int page = 1, int pagesize = 5, string searchterm = "");
 
         
     }

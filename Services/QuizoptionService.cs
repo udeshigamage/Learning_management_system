@@ -139,6 +139,23 @@ namespace Learning_management_system.Services
         public async Task<(IEnumerable<ViewQuizoptionDTO>, int totalcount)> Getallquizoptionasync(int page = 1, int pagesize = 5, string searchterm = "", string filterBy = "", string filterValue = "") {
             try
             {
+                var query = _context.Quizoptions.AsQueryable();
+                if (!string.IsNullOrEmpty(searchterm))
+                {
+                    query = query.Where(c => c.Option_text.Contains(searchterm));
+                }
+
+                var totalcount = query.Count();
+                var result = await query .Skip((page-1)*pagesize).Skip(pagesize).Select(c => new ViewQuizoptionDTO
+                {
+                    Option_Id = c.Option_Id,
+                    Question_Id = c.Question_Id,
+                    Is_correct = c.Is_correct,
+                    Option_text = c.Option_text,
+
+                }).ToListAsync();
+
+                return (result, totalcount);
             }
             catch (Exception ex)
             {

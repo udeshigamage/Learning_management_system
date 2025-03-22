@@ -143,10 +143,29 @@ namespace Learning_management_system.Services
             }
         }
 
-        public async Task<(IEnumerable<ViewAssignmentDTO>, int totalcount)> Getallassignmentasync(int page = 1, int pagesize = 5, string searchterm = "", string filterBy = "", string filterValue = "")
+        public async Task<(IEnumerable<ViewAssignmentDTO>, int totalcount)> Getallassignmentasync(int page = 1, int pagesize = 5, string searchterm = "")
         {
             try
             {
+                var query = _context.Assignment.AsQueryable(); 
+
+                if(!string.IsNullOrWhiteSpace(searchterm))
+                {
+                    query = query.Where(c => c.Assignment_Name.Contains(searchterm) || c.Assignment_Description.Contains(searchterm));
+                }
+                var totalcount = query.Count();
+                var result = query.Skip((page-1)*pagesize).Take(pagesize).Select(c => new ViewAssignmentDTO
+                {
+                    Module_Id = c.Module_Id,
+                    duedate = c.duedate,
+                    Createddate = c.Createddate,
+                    Assignment_Description = c.Assignment_Description,
+                    Assignment_Name = c.Assignment_Name
+
+                }).ToList();
+
+                return(result, totalcount);
+
 
             }
             catch (Exception ex)

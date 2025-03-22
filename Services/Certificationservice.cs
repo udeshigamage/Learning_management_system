@@ -147,6 +147,26 @@ namespace Learning_management_system.Services
         {
             try
             {
+                var query =  _context.Certifications.AsQueryable();
+
+                if(!string.IsNullOrEmpty(searchterm))
+                {
+                    query = query.Where(c => c.certificate_code.Contains(searchterm) || c.Certification_Id.ToString().Contains(searchterm));
+                }
+
+                var totalcount = query.Count();
+                var response = await query.Skip((page-1)* pagesize).Take(pagesize).Select(c => new ViewCertificationsDTO
+                {
+                    Course_Id = c.Course_Id,
+                    User_Id = c.User_Id,
+                    certificate_code = c.certificate_code,
+                    expiry_date = c.expiry_date,
+                    issue_date = c.issue_date,
+                    Certification_Id = c.Certification_Id,
+
+                }).ToListAsync();
+               return(response, totalcount);
+
 
             }
             catch (Exception ex)
