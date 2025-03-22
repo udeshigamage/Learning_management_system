@@ -144,10 +144,7 @@ namespace Learning_management_system.Services
                 {
                     query = query.Where(c => c.ForumTopic.Contains(searchterm));
                 }
-                if (!string.IsNullOrEmpty(filterBy) && !string.IsNullOrEmpty(filterValue))
-                {
-                    query = query.Where(c => c.ForumTopic.Contains(filterValue));
-                }
+              
                 var totalcount = query.Count();
                 var forum = await query.Skip((page - 1) * pagesize).Take(pagesize).Select(c => new ViewForumDTO
                 {
