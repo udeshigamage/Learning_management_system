@@ -1,6 +1,7 @@
 ﻿using Learning_management_system.DTO;
 using Learning_management_system.Interfaces;
 using Learning_management_system.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -44,6 +45,7 @@ namespace Learning_management_system.Controllers
 
         }
 
+        [Authorize(Roles = "Student,Teacher")]
         [HttpDelete("{id}")]
 
         public async Task<IActionResult> Deleteasync(int id)

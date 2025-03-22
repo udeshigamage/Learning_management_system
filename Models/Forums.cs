@@ -23,6 +23,10 @@ namespace Learning_management_system.Models
 
         public virtual User User { get; set; }
 
+        public ICollection<Forumposts> forumposts { get; set; }
+
+
+
 
     }
 }

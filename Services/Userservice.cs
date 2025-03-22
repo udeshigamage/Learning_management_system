@@ -50,7 +50,8 @@ namespace Learning_management_system.Services
                     LastName = User.LastName,
                     User_Type = User.User_Type,
                     Createddate = DateTime.UtcNow,
-                    PasswordHash = User.PasswordHash,
+                    PasswordHash = BCrypt.Net.BCrypt.HashPassword(User.PasswordHash)
+
 
                 };
                 

@@ -1,4 +1,5 @@
-﻿using Learning_management_system.Models;
+﻿using Learning_management_system.Interfaces;
+using Learning_management_system.Models;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -49,8 +50,33 @@ namespace Learning_management_system.dbcontext
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //customize Tb_users table
-            //modelBuilder.Entity<User>().HasKey();
+            //user can enroll multiple courses
+            //user(1)-->courses(m)
+            // One-to-Many: User -> Enrollment
+            modelBuilder.Entity<Enrollment>()
+                .HasOne(e => e.User)
+                .WithMany(u => u.Enrollments)
+                .HasForeignKey(e => e.User_Id);
+
+            // One-to-Many: Course -> Enrollment
+            modelBuilder.Entity<Enrollment>()
+                .HasOne(e => e.Courses)
+                .WithMany(c => c.Enrollments)
+                .HasForeignKey(e => e.Course_Id);
+
+            // One-to-Many: Course -> CourseModule
+            modelBuilder.Entity<Courssemodules>()
+                .HasOne(cm => cm.Courses)
+                .WithMany(c => c.courssemodules)
+                .HasForeignKey(cm => cm.Course_Id);
+
+            // One-to-Many: Course -> Announcement
+            modelBuilder.Entity<Announcement>()
+                .HasOne(a => a.Courses)
+                .WithMany(c => c.Announcements)
+                .HasForeignKey(a => a.Course_Id);
+
+            
         }
 
     }

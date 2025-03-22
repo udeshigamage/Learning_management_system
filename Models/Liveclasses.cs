@@ -26,5 +26,7 @@ namespace Learning_management_system.Models
         public int instructor_id { get; set; }
 
         public virtual User User { get; set; }
+
+        public ICollection<Courssemodules> courssemodules { get; set; }
     }
 }

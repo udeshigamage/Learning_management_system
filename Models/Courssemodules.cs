@@ -23,5 +23,7 @@ namespace Learning_management_system.Models
         public DateTime Modifieddate { get; set; }
 
         public virtual Courses Courses { get; set; }
+
+        public ICollection<Liveclasses> Liveclasses { get; set; }
     }
 }

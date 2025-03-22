@@ -27,6 +27,15 @@ namespace Learning_management_system.Models
 
         public virtual User user{ get; set; }
 
+        public ICollection<Courssemodules> courssemodules { get; set; }
+        public ICollection<Enrollment> Enrollments { get; set; }
+
+        public ICollection<Announcement> Announcements { get; set; }
+
+        public ICollection<Assignment> Assignment { get; set; }
+
+        public ICollection<Quizes> Quizes { get; set; }
+
 
     }
 }

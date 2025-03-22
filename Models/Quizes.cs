@@ -19,5 +19,8 @@ namespace Learning_management_system.Models
         public int Course_Id { get; set; }
 
         public virtual Courses Courses { get; set; }
+
+        public ICollection<Quizquestions> quizquestions { get; set; }
+
     }
 }

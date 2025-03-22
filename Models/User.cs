@@ -23,6 +23,17 @@ namespace Learning_management_system.Models
 
         public DateTime Createddate { get; set; }= DateTime.Now;
 
+        
+
+        public ICollection<Enrollment> Enrollments { get; set; }
+
+        public ICollection<Submission> Submissions { get; set; }
+
+        public ICollection<Forumposts>forumposts { get; set; }
+
+        public  ICollection<Quizresult> Quizresult { get; set; }
+
+
 
     }
 }

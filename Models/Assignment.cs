@@ -23,5 +23,7 @@ namespace Learning_management_system.Models
         public int Module_Id { get; set; }
 
         public virtual Courssemodules Courssemodules { get; set; }
+
+        public ICollection<Submission> Submissions { get; set; }
     }
 }

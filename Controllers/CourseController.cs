@@ -1,5 +1,6 @@
 ﻿using Learning_management_system.DTO;
 using Learning_management_system.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -71,8 +72,7 @@ namespace Learning_management_system.Controllers
                 throw new Exception("Course not found");
             }
         }
-
-        
+        [Authorize(Roles = "Admin,Teacher")] 
         [HttpPost]
         public async Task<IActionResult> createcourse([FromBody] CreateCourseDTO createCourseDTO)
         {
