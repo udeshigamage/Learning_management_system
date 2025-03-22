@@ -136,7 +136,7 @@ namespace Learning_management_system.Services
             }
         }
 
-        public async Task<(IEnumerable<ViewQuizquestionDTO>, int totalcount)> Getallquizquestionasync(int page = 1, int pagesize = 5, string searchterm = "", string filterBy = "", string filterValue = "")
+        public async Task<(IEnumerable<ViewQuizquestionDTO>, int totalcount)> Getallquizquestionasync(int page = 1, int pagesize = 5, string searchterm = "")
         {
             try
             {

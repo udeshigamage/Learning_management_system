@@ -12,7 +12,7 @@ namespace Learning_management_system.Interfaces
 
         Task<IEnumerable<ViewQuizDTO>> Getviewquizasync(int id);
 
-        Task<(IEnumerable<ViewQuizDTO>, int totalcount)> Getallquizasync(int page = 1, int pagesize = 5, string searchterm = "", string filterBy = "", string filterValue = "");
+        Task<(IEnumerable<ViewQuizDTO>, int totalcount)> Getallquizasync(int page = 1, int pagesize = 5, string searchterm = "");
 
         Task<IEnumerable<ListQuizDTO>> GetListquizasync();
     }

@@ -12,7 +12,7 @@ namespace Learning_management_system.Interfaces
 
         Task<IEnumerable<ViewLiveclassesDTO>> Getviewliveclassesasync(int id);
 
-        Task<(IEnumerable<ViewLiveclassesDTO>, int totalcount)> Getallliveclassesasync(int page = 1, int pagesize = 5, string searchterm = "", string filterBy = "", string filterValue = "");
+        Task<(IEnumerable<ViewLiveclassesDTO>, int totalcount)> Getallliveclassesasync(int page = 1, int pagesize = 5, string searchterm = "");
 
         
     }

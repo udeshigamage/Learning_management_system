@@ -12,7 +12,7 @@ namespace Learning_management_system.Interfaces
 
         Task<IEnumerable<ViewCertificationsDTO>> Getviewcertificationsasync(int id);
 
-        Task<(IEnumerable<ViewCertificationsDTO>, int totalcount)> Getallcertificationsasync(int page = 1, int pagesize = 5, string searchterm = "", string filterBy = "", string filterValue = "");
+        Task<(IEnumerable<ViewCertificationsDTO>, int totalcount)> Getallcertificationsasync(int page = 1, int pagesize = 5, string searchterm = "");
 
        
     }

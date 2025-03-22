@@ -12,7 +12,7 @@ namespace Learning_management_system.Interfaces
 
         Task<IEnumerable<ViewSubmissionDTO>> Getviewsubmissionasync(int id);
 
-        Task<(IEnumerable<ViewSubmissionDTO>, int totalcount)> Getallsubmissionasync(int page = 1, int pagesize = 5, string searchterm = "", string filterBy = "", string filterValue = "");
+        Task<(IEnumerable<ViewSubmissionDTO>, int totalcount)> Getallsubmissionasync(int page = 1, int pagesize = 5, string searchterm = "");
 
         
     }
