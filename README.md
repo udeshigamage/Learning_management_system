@@ -11,8 +11,13 @@ migrated database model
 used Entity frameworkcore object relational mapper
 used LiNQ(language integration queries)
 monolithic architecture-single database
-Rolebased authentiacation with JWT
 used Lazy loading with virtual 
+Icollection,ienumerable,list used
+build relation betweeen entities using modelbuilders
+authentication= jwt bearer
+Role based authorization
+swashbuckle ui to enter token to authorized
+hashed password with bcrypt
 
 
 
